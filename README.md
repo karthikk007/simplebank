@@ -220,6 +220,14 @@ go get github.com/stretchr/testify
 
 ```
 
+# GITHUB WORKFLOWS
+
+```
+mkdir -p .github/workflows
+touch .github/workflows/ci.yaml
+
+```
+
 # REFER
 
 [YOUTUBE](https://www.youtube.com/watch?v=phHDfOHB2PU&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE&index=6)
