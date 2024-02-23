@@ -268,3 +268,10 @@ mockgen -package mockdb -destination db/mock/store.go example.com/simplebank/db/
 
 [YOUTUBE](https://www.youtube.com/watch?v=phHDfOHB2PU&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE&index=6)
 [GITHUB](https://github.com/techschool/simplebank)
+
+# VSCODE GO TEST VERBOSE
+
+```
+> OPEN SETTINGS JSON
+"go.testFlags": ["-v", "-race"]
+```
