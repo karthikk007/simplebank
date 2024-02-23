@@ -228,6 +228,42 @@ touch .github/workflows/ci.yaml
 
 ```
 
+# WEB FRAMEWORK
+
+```
+https://github.com/gin-gonic/gin
+
+go get -u github.com/gin-gonic/gin
+```
+
+# VIPER
+
+ENV READ
+
+```
+https://github.com/spf13/viper
+
+override
+SERVER_ADDRESS=0.0.0.0:8081 make server
+```
+
+# GO MOCK
+
+go get github.com/golang/mock/mockgen@v1.6.0
+
+https://github.com/golang/mock
+
+go install github.com/golang/mock/mockgen@v1.6.0
+
+```
+ls -l ~/go/bin
+vim ~/.zshrc
+export PATH=$PATH:~/go/bin
+which mockgen
+
+mockgen -package mockdb -destination db/mock/store.go example.com/simplebank/db/sqlc Store
+```
+
 # REFER
 
 [YOUTUBE](https://www.youtube.com/watch?v=phHDfOHB2PU&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE&index=6)
