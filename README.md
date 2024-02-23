@@ -264,6 +264,26 @@ which mockgen
 mockgen -package mockdb -destination db/mock/store.go example.com/simplebank/db/sqlc Store
 ```
 
+## packages
+
+### UUID
+
+https://github.com/google/uuid
+
+go get github.com/google/uuid
+
+### jwt
+
+https://github.com/dgrijalva/jwt-go
+
+go get github.com/dgrijalva/jwt-go
+
+### PASETO
+
+https://github.com/o1egl/paseto
+
+go get github.com/o1egl/paseto
+
 # REFER
 
 [YOUTUBE](https://www.youtube.com/watch?v=phHDfOHB2PU&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE&index=6)
