@@ -295,3 +295,27 @@ go get github.com/o1egl/paseto
 > OPEN SETTINGS JSON
 "go.testFlags": ["-v", "-race"]
 ```
+
+# Docker build commands
+
+```
+docker build -t simplebank:latest .
+docker images
+docker run --name simplebank -p 8080:8080 -e GIN_MODE=release simplebank:latest
+docker rmi simplebank
+docker rm simplebank
+
+docker container inspect postgres16
+
+docker network ls
+docker network inspect bridge
+```
+
+# docker networking
+
+```
+docker network create bank-network
+docker network connect bank-network postgres16
+docker network inspect bank-network
+docker run --name simplebank --network bank-network -p 8080:8080 -e GIN_MODE=release -e DB_SOURCE="postgresql://admin:admin@postgres16:5432/simple_bank?sslmode=disable" simplebank:latest
+```
