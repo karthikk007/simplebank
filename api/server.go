@@ -1,7 +1,11 @@
 package api
 
 import (
+	"fmt"
+
 	db "example.com/simplebank/db/sqlc"
+	"example.com/simplebank/token"
+	"example.com/simplebank/util"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
@@ -9,34 +13,33 @@ import (
 
 // Server serves HTTP requests for our banking service
 type Server struct {
-	store  db.Store
-	router *gin.Engine
+	config     util.Config
+	store      db.Store
+	tokenMaker token.Maker
+	router     *gin.Engine
 }
 
 // NewServer creates a new HTTP server and setup routes
-func NewServer(store db.Store) *Server {
-	server := &Server{store: store}
-	router := gin.Default()
+func NewServer(config util.Config, store db.Store) (*Server, error) {
+	tokenMaker, err := token.NewPasetoMaker(config.TokenSymmetricKey)
+
+	if err != nil {
+		return nil, fmt.Errorf("cannot create token maker %w", err)
+	}
+
+	server := &Server{
+		config:     config,
+		store:      store,
+		tokenMaker: tokenMaker,
+	}
 
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
 		v.RegisterValidation("currency", validCurrency)
 	}
 
-	// user routes
-	router.POST("/users", server.createUser)
+	server.setupRouter()
 
-	// accounts routes
-
-	router.POST("/accounts", server.createAccount)
-	router.GET("/accounts/:id", server.getAccount)
-	router.GET("/accounts", server.listAccounts)
-
-	router.POST("/transfers", server.createTransfer)
-
-	// add routes to router
-	server.router = router
-
-	return server
+	return server, nil
 }
 
 // Start runs the HTTP server on specific address
@@ -46,4 +49,25 @@ func (server *Server) Start(address string) error {
 
 func errorResponse(err error) gin.H {
 	return gin.H{"error": err.Error()}
+}
+
+func (server *Server) setupRouter() {
+	// add routes to router
+	router := gin.Default()
+
+	// user routes
+	router.POST("/users", server.createUser)
+
+	// login routes
+	router.POST("/users/login", server.loginUser)
+
+	// accounts routes
+
+	router.POST("/accounts", server.createAccount)
+	router.GET("/accounts/:id", server.getAccount)
+	router.GET("/accounts", server.listAccounts)
+
+	router.POST("/transfers", server.createTransfer)
+
+	server.router = router
 }
